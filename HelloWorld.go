@@ -15,6 +15,7 @@ import (
 
 //// 함수 ( 인자 정의 ) ==================================================================
 // 0. 함수는 다음과 같이 선언 - 정의한다. <<---- 선택
+// 0. 함수는 다음과 같이 선언 - 정의한다. <<---- 선택
 func func1(x int, y int) int {
 	return x + y
 }
@@ -79,6 +80,15 @@ type Level uint16
 // C++ 과 다른 점은 , using 혹은 typedef로 정의할 경우, 단순히 동등 - 치환으로 생각하는데,
 // Golang의 Type은 말 그대로 다른 Type으로 서로 동등하지 않다.
 
+//// 이를 바탕으로, 클로저...를 생성할 수 있다.===============================================
+func GetSumCloser() func(int) int {
+	sum := 0
+	return func(x int) int {
+		sum += x
+		return sum
+	}
+}
+
 func main() {
 
 	fmt.Println()
@@ -138,8 +148,13 @@ func main() {
 				age  uint8
 			}{
 				{"", 1},
-				{"", 2}
+				{"", 2},
 			}
+
+			tempStructSlice[0].name = "ABC"
+			tempStructSlice[1].name = "DEF"
+
+			fmt.Println("tempSlice: ", tempStructSlice)
 		}
 	}
 
@@ -227,8 +242,11 @@ func main() {
 		fmt.Println("temp2 :", temp2, ", &temp2 :", &temp2)
 	}
 
-	//
+	// 클로저를 받아볼까나
 	{
-
+		tempCloser := GetSumCloser()
+		fmt.Println(tempCloser(1))
+		fmt.Println(tempCloser(2))
+		fmt.Println(tempCloser(3))
 	}
 }
